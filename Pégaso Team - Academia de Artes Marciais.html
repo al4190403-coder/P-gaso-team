@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PÉGASO TEAM | Academia de Artes Marciais & Alta Performance</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#101113',
+                        darkCard: '#1B1D21',
+                        darkBorder: '#2A2D34',
+                        brandRed: '#E53935',
+                        brandRedHover: '#C62828',
+                        textMuted: '#A8ADB7'
+                    },
+                    fontFamily: {
+                        heading: ['"Barlow Condensed"', 'sans-serif'],
+                        body: ['"Manrope"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #101113;
+            color: #FFFFFF;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(229, 57, 53, 0.1) 1px, transparent 0);
+            background-size: 30px 30px;
+        }
+        .red-glow {
+            box-shadow: 0 0 25px rgba(229, 57, 53, 0.25);
+        }
+        .red-glow-lg {
+            box-shadow: 0 0 50px rgba(229, 57, 53, 0.35);
+        }
+        .gradient-overlay {
+            background: linear-gradient(180deg, rgba(16,17,19,0.7) 0%, rgba(16,17,19,1) 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brandRed selection:text-white">
+
+    <!-- Toast Notification System -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-brandRed text-white px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3 border border-red-400/30">
+        <i id="toast-icon" class="fas fa-check-circle text-xl"></i>
+        <span id="toast-message" class="font-medium">Mensagem de aviso</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-40 bg-darkBg/90 backdrop-blur-md border-b border-darkBorder transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- LOGO -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <img src="51752.jpg" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1B1D21/E53935?text=PEGASO';" alt="Logo Pégaso Team" class="h-12 w-12 object-cover rounded-full border-2 border-brandRed/50 group-hover:border-brandRed transition-all">
+                    <div>
+                        <span class="font-heading text-2xl font-black tracking-wider text-white block leading-none">PÉGASO <span class="text-brandRed">TEAM</span></span>
+                        <span class="text-[10px] text-textMuted tracking-widest uppercase block mt-0.5">Artes Marciais & Performance</span>
+                    </div>
+                </a>
+
+                <!-- DESKTOP MENU -->
+                <nav class="hidden md:flex items-center space-x-8 font-medium text-sm text-textMuted">
+                    <a href="#sobre" class="hover:text-white transition-colors">A Academia</a>
+                    <a href="#modalidades" class="hover:text-white transition-colors">Modalidades</a>
+                    <a href="#recomendador" class="hover:text-white transition-colors">Quiz Modalidade</a>
+                    <a href="#horarios" class="hover:text-white transition-colors">Grade Horários</a>
+                    <a href="#planos" class="hover:text-white transition-colors">Planos</a>
+                    <a href="#equipe" class="hover:text-white transition-colors">Professor</a>
+                    <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+                </nav>
+
+                <!-- HEADER ACTIONS -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <button onclick="openModal('login-modal')" class="text-sm font-semibold text-white hover:text-brandRed px-3 py-2 transition-colors">
+                        <i class="fas fa-user-circle mr-2"></i>Área Aluno / Admin
+                    </button>
+                    <a href="#agendamento" class="bg-brandRed hover:bg-brandRedHover text-white px-5 py-2.5 rounded-lg font-heading text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-red-600/30">
+                        AULA EXPERIMENTAL
+                    </a>
+                </div>
+
+                <!-- MOBILE MENU BUTTON -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-textMuted hover:text-white p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkCard border-b border-darkBorder px-4 pt-2 pb-6 space-y-3">
+            <a href="#sobre" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">A Academia</a>
+            <a href="#modalidades" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Modalidades</a>
+            <a href="#recomendador" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Quiz Modalidade</a>
+            <a href="#horarios" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Grade Horários</a>
+            <a href="#planos" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Planos</a>
+            <a href="#equipe" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Professor</a>
+            <a href="#contato" onclick="toggleMobileMenu()" class="block text-textMuted hover:text-white py-2 font-medium">Contato</a>
+            <div class="pt-4 border-t border-darkBorder flex flex-col gap-3">
+                <button onclick="toggleMobileMenu(); openModal('login-modal')" class="w-full text-center text-white py-2 font-semibold bg-darkBorder rounded-lg">
+                    Área Aluno / Admin
+                </button>
+                <a href="#agendamento" onclick="toggleMobileMenu()" class="w-full text-center bg-brandRed text-white py-3 rounded-lg font-heading text-lg font-bold">
+                    AGENDAR AULA EXPERIMENTAL
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden bg-grid-pattern">
+        <div class="absolute inset-0 bg-gradient-to-b from-darkBg/30 via-darkBg/80 to-darkBg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-brandRed/10 border border-brandRed/30 px-4 py-1.5 rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-brandRed animate-pulse"></span>
+                        <span class="text-xs font-semibold uppercase text-brandRed tracking-widest">Treinamento de Alta Performance</span>
+                    </div>
+
+                    <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl font-black text-white leading-none tracking-tight">
+                        TREINE COM PROPÓSITO. <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandRed to-red-400">EVOLUA COM A EQUIPE.</span>
+                    </h1>
+
+                    <p class="text-textMuted text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        A **Pégaso Team** é referência em formação técnica, condicionamento e disciplina. Sob a liderança unificada do **Mestre Arthur Thai**, oferecemos o ambiente ideal para iniciantes e atletas de elite.
+                    </p>
+
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#agendamento" class="bg-brandRed hover:bg-brandRedHover text-white px-8 py-4 rounded-xl font-heading text-xl font-bold tracking-wider transition-all red-glow flex items-center justify-center space-x-2">
+                            <span>AGENDAR AULA EXPERIMENTAL</span>
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#modalidades" class="bg-darkCard hover:bg-darkBorder text-white border border-darkBorder px-8 py-4 rounded-xl font-heading text-xl font-bold tracking-wider transition-all flex items-center justify-center">
+                            VER MODALIDADES
+                        </a>
+                    </div>
+
+                    <!-- Quick Metrics -->
+                    <div class="pt-8 grid grid-cols-3 gap-4 border-t border-darkBorder/60 max-w-lg mx-auto lg:mx-0 text-center">
+                        <div>
+                            <span class="font-heading text-3xl font-black text-white block">+10</span>
+                            <span class="text-xs text-textMuted uppercase font-medium">Anos de Tradição</span>
+                        </div>
+                        <div>
+                            <span class="font-heading text-3xl font-black text-brandRed block">100%</span>
+                            <span class="text-xs text-textMuted uppercase font-medium">Foco no Aluno</span>
+                        </div>
+                        <div>
+                            <span class="font-heading text-3xl font-black text-white block">6</span>
+                            <span class="text-xs text-textMuted uppercase font-medium">Modalidades</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image Showcase -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+                        <!-- Red glow background -->
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-brandRed to-red-900 rounded-3xl blur-2xl opacity-40"></div>
+                        
+                        <!-- Main Card with Master Arthur Thai photo -->
+                        <div class="relative rounded-3xl bg-darkCard border border-darkBorder overflow-hidden p-3 shadow-2xl">
+                            <div class="relative h-[420px] rounded-2xl overflow-hidden bg-black">
+                                <img src="51758.jpg" onerror="this.onerror=null; this.src='https://placehold.co/600x800/1B1D21/E53935?text=Arthur+Thai';" alt="Professor Arthur Thai" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-darkCard via-transparent to-transparent"></div>
+                                
+                                <div class="absolute bottom-4 left-4 right-4 p-4 bg-darkCard/90 backdrop-blur-md rounded-xl border border-darkBorder/80">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="51752.jpg" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1B1D21/E53935?text=PEGASO';" alt="Logo Pégaso" class="w-12 h-12 rounded-full border border-brandRed">
+                                        <div>
+                                            <h3 class="font-heading text-xl font-bold text-white leading-none">Arthur Thai</h3>
+                                            <p class="text-xs text-brandRed font-semibold mt-1">Head Coach & Mestre Principal</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. A ACADEMIA (PROPOSTA & ESTRUTURA) -->
+    <section id="sobre" class="py-20 bg-darkCard border-y border-darkBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Tradição & Técnica</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-2">A ESTRUTURA E A FILOSOFIA PÉGASO</h2>
+                <div class="w-20 h-1.5 bg-brandRed mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-darkBg p-8 rounded-2xl border border-darkBorder hover:border-brandRed/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed text-2xl mb-6 group-hover:bg-brandRed group-hover:text-white transition-all">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-3">COMANDO UNIFICADO</h3>
+                    <p class="text-textMuted text-sm leading-relaxed">
+                        Todas as modalidades são diretamente supervisionadas pelo Mestre Arthur Thai, garantindo consistência pedagógica, técnica limpa e evolução contínua sem quebra de metodologia.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-darkBg p-8 rounded-2xl border border-darkBorder hover:border-brandRed/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed text-2xl mb-6 group-hover:bg-brandRed group-hover:text-white transition-all">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-3">ESTRUTURA DE PONTA</h3>
+                    <p class="text-textMuted text-sm leading-relaxed">
+                        Tatame de alta densidade absorvente de impacto, sacos de pancada profissionais heavy-duty, octógono funcional e área completa para condicionamento físico integrado.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-darkBg p-8 rounded-2xl border border-darkBorder hover:border-brandRed/50 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed text-2xl mb-6 group-hover:bg-brandRed group-hover:text-white transition-all">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-3">COMUNIDADE & RESPEITO</h3>
+                    <p class="text-textMuted text-sm leading-relaxed">
+                        Ambiente acolhedor e seguro, onde o respeito é a regra primordial. Seja você um praticante em busca de emagrecimento ou um atleta focado em competição.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. MODALIDADES -->
+    <section id="modalidades" class="py-24 bg-darkBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Nossos Treinos</span>
+                    <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-2">MODALIDADES OFERECIDAS</h2>
+                </div>
+                <p class="text-textMuted max-w-md mt-4 md:mt-0 text-sm">
+                    Todas as aulas são ministradas com acompanhamento técnico direto do **Prof. Arthur Thai**.
+                </p>
+            </div>
+
+            <!-- Modalidades Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Muay Thai -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Arte das 8 Armas</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>60 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">MUAY THAI</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                Golpes com punhos, cotovelos, joelhos e canelas. Alta queima calórica, defesa pessoal rigorosa e condicionamento extremo.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Iniciante ao Avançado</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('Muay Thai')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+                <!-- Boxe -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Nobre Arte</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>60 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">BOXE TRADICIONAL</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                Esquivas, footwork impecável e combinações precisas. Excelente para agilidade mental, reflexos e tônus muscular.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Todos os Níveis</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('Boxe')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+                <!-- Jiu-Jitsu -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Arte Suave</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>75 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">JIU-JITSU (BJJ)</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                Domínio de solo, alavancas, estrangulamentos e chaves articulares. Estratégia pura onde a técnica supera a força.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Iniciante ao Avançado</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('Jiu-Jitsu')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+                <!-- Kickboxing -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Impacto & Dinamismo</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>60 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">KICKBOXING</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                União da potência do boxe com chutes dinâmicos das artes marciais ocidentais e orientais. Foco em explosão física.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Todos os Níveis</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('Kickboxing')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+                <!-- MMA -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Combate Completo</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>90 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">MMA (ARTES MARCIAIS MISTAS)</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                Integração de striking e grappling. Transições de grade, ground and pound e defesa integral.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Intermediário/Avançado</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('MMA')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+                <!-- Treino Funcional -->
+                <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-hidden hover:border-brandRed transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="p-6 pb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brandRed/20 text-brandRed border border-brandRed/40 text-xs font-bold px-3 py-1 rounded-full uppercase">Preparação Física</span>
+                                <span class="text-xs text-textMuted"><i class="far fa-clock mr-1"></i>50 min</span>
+                            </div>
+                            <h3 class="font-heading text-3xl font-black text-white group-hover:text-brandRed transition-colors">TREINO FUNCIONAL</h3>
+                            <p class="text-textMuted text-sm mt-3 leading-relaxed">
+                                Circuitos direcionados para ganho de resistência, força do core, agilidade e perda acelerada de gordura corporal.
+                            </p>
+                        </div>
+                        <div class="px-6 py-4 border-t border-darkBorder/60 bg-darkBg/50 space-y-2 text-xs">
+                            <div class="flex justify-between"><span class="text-textMuted">Professor:</span> <span class="text-white font-semibold">Arthur Thai</span></div>
+                            <div class="flex justify-between"><span class="text-textMuted">Nível:</span> <span class="text-white font-semibold">Todos os Níveis</span></div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <a href="#agendamento" onclick="setAgendamentoModalidade('Treino Funcional')" class="w-full mt-4 bg-darkBorder hover:bg-brandRed text-white text-center py-2.5 rounded-lg font-heading font-bold transition-all block">AGENDAR ESTA AULA</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. RECOMENDADOR INTERATIVO (QUIZ) -->
+    <section id="recomendador" class="py-20 bg-darkCard border-y border-darkBorder">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-darkBg rounded-3xl p-8 sm:p-12 border border-darkBorder shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-brandRed/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="text-center mb-8">
+                    <span class="text-brandRed font-bold text-xs tracking-widest uppercase">Descubra Seu Treino Ideal</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-black text-white mt-1">QUAL MODALIDADE É PERFEITA PARA VOCÊ?</h2>
+                    <p class="text-textMuted text-sm mt-2">Responda 2 perguntas rápidas e veja a recomendação do Mestre Arthur Thai.</p>
+                </div>
+
+                <!-- Quiz Form Container -->
+                <div id="quiz-container" class="space-y-8">
+                    <!-- Q1 -->
+                    <div>
+                        <label class="block font-heading text-xl font-bold text-white mb-3">1. Qual é o seu objetivo principal?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button type="button" onclick="selectQuizOpt('obj', 'perda', this)" class="quiz-btn-obj bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <i class="fas fa-fire text-brandRed mb-2 text-xl block"></i>
+                                <span class="font-bold text-sm block text-white">Perder Peso & Condicionamento</span>
+                            </button>
+                            <button type="button" onclick="selectQuizOpt('obj', 'defesa', this)" class="quiz-btn-obj bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <i class="fas fa-user-shield text-brandRed mb-2 text-xl block"></i>
+                                <span class="font-bold text-sm block text-white">Defesa Pessoal & Técnica</span>
+                            </button>
+                            <button type="button" onclick="selectQuizOpt('obj', 'forca', this)" class="quiz-btn-obj bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <i class="fas fa-dumbbell text-brandRed mb-2 text-xl block"></i>
+                                <span class="font-bold text-sm block text-white">Ganho de Força & Desabafo</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div>
+                        <label class="block font-heading text-xl font-bold text-white mb-3">2. Qual estilo de combate/movimento você prefere?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button type="button" onclick="selectQuizOpt('pref', 'troca', this)" class="quiz-btn-pref bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <span class="font-bold text-sm block text-white">Trocação (Chutes e Soco em pé)</span>
+                            </button>
+                            <button type="button" onclick="selectQuizOpt('pref', 'solo', this)" class="quiz-btn-pref bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <span class="font-bold text-sm block text-white">Luta de Solo / Alavancas</span>
+                            </button>
+                            <button type="button" onclick="selectQuizOpt('pref', 'semcontato', this)" class="quiz-btn-pref bg-darkCard border border-darkBorder hover:border-brandRed p-4 rounded-xl text-left transition-all">
+                                <span class="font-bold text-sm block text-white">Sem Luta Direta (Apenas treino físico)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="calcularQuiz()" class="w-full bg-brandRed hover:bg-brandRedHover text-white py-4 rounded-xl font-heading text-xl font-bold tracking-wider transition-all shadow-lg">
+                        VER RECOMENDAÇÃO
+                    </button>
+                </div>
+
+                <!-- Quiz Result Box -->
+                <div id="quiz-result" class="hidden text-center py-6 space-y-4">
+                    <div class="inline-block p-4 bg-brandRed/20 border border-brandRed/40 rounded-full text-brandRed text-3xl mb-2">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 id="result-title" class="font-heading text-3xl font-black text-white">RECOMENDAÇÃO: MUAY THAI</h3>
+                    <p id="result-desc" class="text-textMuted text-sm max-w-lg mx-auto">
+                        Com base no seu perfil, o Muay Thai com o Prof. Arthur Thai proporcionará a combinação perfeita entre perda rápida de calorias e técnica de trocação!
+                    </p>
+                    <div class="pt-4 flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#agendamento" id="result-link" class="bg-brandRed text-white px-6 py-3 rounded-xl font-heading font-bold text-lg">AGENDAR AULA AGORA</a>
+                        <button onclick="resetQuiz()" class="bg-darkBorder text-textMuted hover:text-white px-6 py-3 rounded-xl font-medium text-sm">Refazer Quiz</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. GRADE SEMANAL DE HORÁRIOS -->
+    <section id="horarios" class="py-24 bg-darkBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Organize Sua Rotina</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-1">GRADE INTERATIVA DE HORÁRIOS</h2>
+                <p class="text-textMuted text-sm mt-2">Filtre por dia ou modalidade para encontrar o treino ideal.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button onclick="filterSchedule('all')" class="sched-filter-btn active bg-brandRed text-white px-4 py-2 rounded-lg font-heading font-bold text-sm">TODOS</button>
+                <button onclick="filterSchedule('seg-qua-sex')" class="sched-filter-btn bg-darkCard border border-darkBorder hover:border-brandRed text-textMuted hover:text-white px-4 py-2 rounded-lg font-heading font-bold text-sm">SEG / QUA / SEX</button>
+                <button onclick="filterSchedule('ter-qui')" class="sched-filter-btn bg-darkCard border border-darkBorder hover:border-brandRed text-textMuted hover:text-white px-4 py-2 rounded-lg font-heading font-bold text-sm">TER / QUI</button>
+                <button onclick="filterSchedule('sabado')" class="sched-filter-btn bg-darkCard border border-darkBorder hover:border-brandRed text-textMuted hover:text-white px-4 py-2 rounded-lg font-heading font-bold text-sm">SÁBADO</button>
+            </div>
+
+            <!-- Schedule Table Container -->
+            <div class="bg-darkCard rounded-2xl border border-darkBorder overflow-x-auto shadow-xl">
+                <table class="w-full text-left min-w-[600px]">
+                    <thead class="bg-darkBg/80 border-b border-darkBorder text-brandRed font-heading text-lg">
+                        <tr>
+                            <th class="p-4">Horário</th>
+                            <th class="p-4">Dias</th>
+                            <th class="p-4">Modalidade</th>
+                            <th class="p-4">Professor</th>
+                            <th class="p-4 text-right">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-darkBorder/50 text-sm">
+                        <tr class="sched-row seg-qua-sex hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">07:00 - 08:00</td>
+                            <td class="p-4 text-textMuted">Seg / Qua / Sex</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Muay Thai</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Muay Thai')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row ter-qui hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">08:00 - 09:00</td>
+                            <td class="p-4 text-textMuted">Ter / Qui</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Boxe</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Boxe')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row seg-qua-sex hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">12:00 - 13:00</td>
+                            <td class="p-4 text-textMuted">Seg / Qua / Sex</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Treino Funcional</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Treino Funcional')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row ter-qui hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">18:00 - 19:15</td>
+                            <td class="p-4 text-textMuted">Ter / Qui</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Jiu-Jitsu</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Jiu-Jitsu')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row seg-qua-sex hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">19:30 - 20:30</td>
+                            <td class="p-4 text-textMuted">Seg / Qua / Sex</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Muay Thai</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Muay Thai')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row ter-qui hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">20:30 - 22:00</td>
+                            <td class="p-4 text-textMuted">Ter / Qui</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">MMA</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('MMA')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                        <tr class="sched-row sabado hover:bg-darkBg/30 transition-colors">
+                            <td class="p-4 font-bold text-white">10:00 - 11:30</td>
+                            <td class="p-4 text-textMuted">Sábado</td>
+                            <td class="p-4"><span class="bg-red-950/60 text-brandRed px-2.5 py-1 rounded font-bold text-xs uppercase border border-red-800/40">Sparring / Kickboxing</span></td>
+                            <td class="p-4 text-white">Arthur Thai</td>
+                            <td class="p-4 text-right"><button onclick="setAgendamentoModalidade('Kickboxing')" class="text-xs bg-brandRed/20 hover:bg-brandRed text-brandRed hover:text-white px-3 py-1.5 rounded transition-all font-bold">Agendar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. AGENDAMENTO DE AULA EXPERIMENTAL EM 3 PASSOS -->
+    <section id="agendamento" class="py-24 bg-darkCard border-y border-darkBorder">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Sem Compromisso</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-1">AGENDAR AULA EXPERIMENTAL GRATUITA</h2>
+                <p class="text-textMuted text-sm mt-2">Escolha a modalidade, data e venha conhecer a estrutura Pégaso Team.</p>
+            </div>
+
+            <!-- Steps Progress Bar -->
+            <div class="flex justify-between items-center mb-10 max-w-lg mx-auto relative">
+                <div class="absolute top-1/2 left-0 right-0 h-0.5 bg-darkBorder -translate-y-1/2 z-0"></div>
+                <div id="step-line" class="absolute top-1/2 left-0 h-0.5 bg-brandRed -translate-y-1/2 z-0 transition-all duration-300 w-0"></div>
+                
+                <div class="relative z-10 text-center">
+                    <div id="step-btn-1" class="w-10 h-10 rounded-full bg-brandRed text-white flex items-center justify-center font-bold text-sm mx-auto shadow-lg">1</div>
+                    <span class="text-[11px] text-white font-semibold mt-1 block">Modalidade</span>
+                </div>
+                <div class="relative z-10 text-center">
+                    <div id="step-btn-2" class="w-10 h-10 rounded-full bg-darkBg border border-darkBorder text-textMuted flex items-center justify-center font-bold text-sm mx-auto">2</div>
+                    <span class="text-[11px] text-textMuted font-semibold mt-1 block">Data & Hora</span>
+                </div>
+                <div class="relative z-10 text-center">
+                    <div id="step-btn-3" class="w-10 h-10 rounded-full bg-darkBg border border-darkBorder text-textMuted flex items-center justify-center font-bold text-sm mx-auto">3</div>
+                    <span class="text-[11px] text-textMuted font-semibold mt-1 block">Dados Pessoais</span>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="bg-darkBg rounded-3xl p-6 sm:p-10 border border-darkBorder shadow-2xl">
+                <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+                    
+                    <!-- STEP 1: Modalidade -->
+                    <div id="step-1" class="booking-step space-y-6">
+                        <h3 class="font-heading text-2xl font-bold text-white mb-4">Escolha a Modalidade Desejada</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="Muay Thai" checked class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-hand-rock text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">Muay Thai</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="Boxe" class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-mitten text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">Boxe</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="Jiu-Jitsu" class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-user-ninja text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">Jiu-Jitsu</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="Kickboxing" class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-running text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">Kickboxing</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="MMA" class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-shield-alt text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">MMA</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="modalidade_select" value="Treino Funcional" class="peer hidden">
+                                <div class="p-4 rounded-xl border border-darkBorder bg-darkCard peer-checked:border-brandRed peer-checked:bg-brandRed/10 text-center transition-all">
+                                    <i class="fas fa-dumbbell text-brandRed text-xl mb-2 block"></i>
+                                    <span class="text-sm font-bold text-white block">Funcional</span>
+                                </div>
+                            </label>
+                        </div>
+                        <button type="button" onclick="goToStep(2)" class="w-full bg-brandRed hover:bg-brandRedHover text-white py-3.5 rounded-xl font-heading text-lg font-bold">PRÓXIMO PASSO <i class="fas fa-arrow-right ml-2 text-sm"></i></button>
+                    </div>
+
+                    <!-- STEP 2: Data e Horario -->
+                    <div id="step-2" class="booking-step hidden space-y-6">
+                        <h3 class="font-heading text-2xl font-bold text-white mb-4">Selecione Data e Horário</h3>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-textMuted uppercase font-bold mb-2">Data Prefencial</label>
+                                <input type="date" required id="booking-date" class="w-full bg-darkCard border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-textMuted uppercase font-bold mb-2">Horário Preferencial</label>
+                                <select id="booking-time" class="w-full bg-darkCard border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                                    <option value="07:00">07:00 (Manhã)</option>
+                                    <option value="08:00">08:00 (Manhã)</option>
+                                    <option value="12:00">12:00 (Tarde)</option>
+                                    <option value="18:00">18:00 (Noite)</option>
+                                    <option value="19:30">19:30 (Noite)</option>
+                                    <option value="20:30">20:30 (Noite)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="goToStep(1)" class="w-1/3 bg-darkBorder text-white py-3.5 rounded-xl font-heading text-lg font-bold">VOLTAR</button>
+                            <button type="button" onclick="goToStep(3)" class="w-2/3 bg-brandRed hover:bg-brandRedHover text-white py-3.5 rounded-xl font-heading text-lg font-bold">PRÓXIMO PASSO <i class="fas fa-arrow-right ml-2 text-sm"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Dados Pessoais -->
+                    <div id="step-3" class="booking-step hidden space-y-6">
+                        <h3 class="font-heading text-2xl font-bold text-white mb-4">Seus Dados de Contato</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-textMuted uppercase font-bold mb-1">Nome Completo</label>
+                                <input type="text" id="booking-name" required placeholder="Digite seu nome" class="w-full bg-darkCard border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs text-textMuted uppercase font-bold mb-1">WhatsApp / Telefone</label>
+                                    <input type="tel" id="booking-phone" required placeholder="(00) 99999-9999" class="w-full bg-darkCard border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-textMuted uppercase font-bold mb-1">E-mail</label>
+                                    <input type="email" id="booking-email" required placeholder="seu@email.com" class="w-full bg-darkCard border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-darkCard border border-darkBorder rounded-xl text-xs text-textMuted">
+                            <i class="fas fa-info-circle text-brandRed mr-1"></i> Aula experimental demonstrativa 100% gratuita. Traga uma roupa confortável para treino e garrafa de água.
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button type="button" onclick="goToStep(2)" class="w-1/3 bg-darkBorder text-white py-3.5 rounded-xl font-heading text-lg font-bold">VOLTAR</button>
+                            <button type="submit" class="w-2/3 bg-brandRed hover:bg-brandRedHover text-white py-3.5 rounded-xl font-heading text-lg font-bold red-glow">CONFIRMAR AGENDAMENTO</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. PLANOS E COMPARATIVO -->
+    <section id="planos" class="py-24 bg-darkBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Investimento no Seu Futuro</span>
+                <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-1">PLANOS DE TREINAMENTO</h2>
+                <p class="text-textMuted text-sm mt-2">Escolha a frequência ideal para alcançar seus objetivos de condicionamento e combate.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Plano Light -->
+                <div class="bg-darkCard rounded-3xl p-8 border border-darkBorder flex flex-col justify-between hover:border-textMuted/50 transition-all">
+                    <div>
+                        <span class="text-textMuted font-bold text-xs uppercase tracking-wider block">PLANO LIGHT</span>
+                        <h3 class="font-heading text-3xl font-black text-white mt-1">2X POR SEMANA</h3>
+                        <p class="text-textMuted text-xs mt-2">Ideal para iniciantes conciliarem com a rotina de trabalho.</p>
+                        
+                        <div class="my-6 py-4 border-y border-darkBorder/60">
+                            <span class="text-xs text-textMuted">R$</span>
+                            <span class="font-heading text-5xl font-black text-white">139</span>
+                            <span class="text-xs text-textMuted">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-textMuted mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> 2 Aulas por semana</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> 1 Modalidade de escolha</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> Supervisão Arthur Thai</li>
+                            <li class="flex items-center opacity-40"><i class="fas fa-times mr-3"></i> Acesso total ilimitado</li>
+                        </ul>
+                    </div>
+                    <button onclick="setPlanModal('Plano Light')" class="w-full bg-darkBorder hover:bg-white hover:text-darkBg text-white font-heading font-bold py-3.5 rounded-xl transition-all">MATRICULAR AGORA</button>
+                </div>
+
+                <!-- Plano VIP (Destaque) -->
+                <div class="bg-darkCard rounded-3xl p-8 border-2 border-brandRed relative flex flex-col justify-between red-glow transition-all transform scale-105">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brandRed text-white text-xs font-bold font-heading px-4 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        PLANO EM DESTAQUE / MAIS VENDIDO
+                    </div>
+
+                    <div>
+                        <span class="text-brandRed font-bold text-xs uppercase tracking-wider block">PLANO PÉGASO VIP</span>
+                        <h3 class="font-heading text-3xl font-black text-white mt-1">LIVRE / ILIMITADO</h3>
+                        <p class="text-textMuted text-xs mt-2">Treine quantas modalidades quiser todos os dias.</p>
+                        
+                        <div class="my-6 py-4 border-y border-darkBorder/60">
+                            <span class="text-xs text-textMuted">R$</span>
+                            <span class="font-heading text-5xl font-black text-white">199</span>
+                            <span class="text-xs text-textMuted">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-white mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> **Acesso Ilimitado Todos os Dias**</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> **Todas as 6 Modalidades Incluídas**</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> Treino Funcional liberado</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> Avaliação física trimestral</li>
+                        </ul>
+                    </div>
+                    <button onclick="setPlanModal('Plano Pégaso VIP')" class="w-full bg-brandRed hover:bg-brandRedHover text-white font-heading font-bold py-4 rounded-xl transition-all text-lg shadow-lg">MATRICULAR AGORA VIP</button>
+                </div>
+
+                <!-- Plano Foco Total -->
+                <div class="bg-darkCard rounded-3xl p-8 border border-darkBorder flex flex-col justify-between hover:border-textMuted/50 transition-all">
+                    <div>
+                        <span class="text-textMuted font-bold text-xs uppercase tracking-wider block">PLANO FOCO TOTAL</span>
+                        <h3 class="font-heading text-3xl font-black text-white mt-1">3X POR SEMANA</h3>
+                        <p class="text-textMuted text-xs mt-2">Evolução consistente com flexibilidade de dias.</p>
+                        
+                        <div class="my-6 py-4 border-y border-darkBorder/60">
+                            <span class="text-xs text-textMuted">R$</span>
+                            <span class="font-heading text-5xl font-black text-white">169</span>
+                            <span class="text-xs text-textMuted">/mês</span>
+                        </div>
+
+                        <ul class="space-y-3 text-sm text-textMuted mb-8">
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> 3 Aulas por semana</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> Até 2 Modalidades de escolha</li>
+                            <li class="flex items-center"><i class="fas fa-check text-brandRed mr-3"></i> Acompanhamento Mestre Arthur</li>
+                            <li class="flex items-center opacity-40"><i class="fas fa-times mr-3"></i> Acesso livre ilimitado</li>
+                        </ul>
+                    </div>
+                    <button onclick="setPlanModal('Plano Foco Total')" class="w-full bg-darkBorder hover:bg-white hover:text-darkBg text-white font-heading font-bold py-3.5 rounded-xl transition-all">MATRICULAR AGORA</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. CORPO TÉCNICO - MESTRE ARTHUR THAI -->
+    <section id="equipe" class="py-24 bg-darkCard border-y border-darkBorder relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 relative">
+                    <div class="relative rounded-3xl overflow-hidden border-2 border-brandRed/40 shadow-2xl">
+                        <img src="51758.jpg" onerror="this.onerror=null; this.src='https://placehold.co/600x800/1B1D21/E53935?text=Arthur+Thai';" alt="Professor Arthur Thai" class="w-full h-[500px] object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <span class="bg-brandRed text-white text-xs font-bold px-3 py-1 rounded-full font-heading tracking-wider">HEAD COACH</span>
+                            <h3 class="font-heading text-4xl font-black text-white mt-1">ARTHUR THAI</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <span class="text-brandRed font-bold text-sm tracking-widest uppercase">Liderança Técnica</span>
+                        <h2 class="font-heading text-4xl sm:text-5xl font-black text-white mt-1">PROFESSOR ARTHUR THAI</h2>
+                        <div class="w-16 h-1 bg-brandRed mt-3 rounded-full"></div>
+                    </div>
+
+                    <p class="text-textMuted text-base leading-relaxed">
+                        Com vasta vivência nos tatames e ringues, o **Mestre Arthur Thai** unifica a coordenação técnica de todas as modalidades da Pégaso Team. Sua metodologia foca na precisão biomecânica, segurança do praticante e fortalecimento do caráter através da arte marcial.
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 bg-darkBg border border-darkBorder rounded-xl">
+                            <i class="fas fa-certificate text-brandRed text-xl mb-2"></i>
+                            <h4 class="font-heading text-lg font-bold text-white">Metodologia Exclusiva</h4>
+                            <p class="text-textMuted text-xs mt-1">Aulas estruturadas passo a passo para iniciantes e avançados.</p>
+                        </div>
+                        <div class="p-4 bg-darkBg border border-darkBorder rounded-xl">
+                            <i class="fas fa-heartbeat text-brandRed text-xl mb-2"></i>
+                            <h4 class="font-heading text-lg font-bold text-white">Acompanhamento Individual</h4>
+                            <p class="text-textMuted text-xs mt-1">Ajuste de postura, ritmo e condicionamento para cada perfil.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="#agendamento" class="inline-flex items-center bg-brandRed hover:bg-brandRedHover text-white px-6 py-3 rounded-xl font-heading font-bold text-lg transition-all">
+                            CONHECER O TREINO DO MESTRE <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CONTATO & LOCALIZAÇÃO -->
+    <section id="contato" class="py-24 bg-darkBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12">
+                
+                <!-- Form Contato -->
+                <div class="lg:col-span-6 bg-darkCard p-8 sm:p-10 rounded-3xl border border-darkBorder">
+                    <span class="text-brandRed font-bold text-xs tracking-widest uppercase">Fale Conosco</span>
+                    <h2 class="font-heading text-3xl font-black text-white mt-1 mb-6">ENVIE UMA MENSAGEM</h2>
+                    
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-textMuted uppercase font-bold mb-1">Seu Nome</label>
+                            <input type="text" required placeholder="Digite seu nome" class="w-full bg-darkBg border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-textMuted uppercase font-bold mb-1">Seu WhatsApp</label>
+                            <input type="tel" required placeholder="(00) 99999-9999" class="w-full bg-darkBg border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-textMuted uppercase font-bold mb-1">Mensagem</label>
+                            <textarea rows="4" required placeholder="Como podemos ajudar?" class="w-full bg-darkBg border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brandRed hover:bg-brandRedHover text-white py-3.5 rounded-xl font-heading text-lg font-bold">ENVIAR MENSAGEM</button>
+                    </form>
+                </div>
+
+                <!-- Infos & Mapa -->
+                <div class="lg:col-span-6 space-y-8 flex flex-col justify-between">
+                    <div>
+                        <span class="text-brandRed font-bold text-xs tracking-widest uppercase">Venha nos Visitar</span>
+                        <h2 class="font-heading text-3xl font-black text-white mt-1 mb-6">ONDE ESTAMOS</h2>
+
+                        <div class="space-y-4 text-textMuted text-sm">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 rounded-lg bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed shrink-0">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-white block">Endereço da Academia</span>
+                                    <span>Rua das Artes Marciais, nº 500 - Centro / Pégaso Training Hub</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 rounded-lg bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed shrink-0">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-white block">WhatsApp Direto</span>
+                                    <span>(11) 99999-8888 / Atendimento Comercial</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 rounded-lg bg-brandRed/10 border border-brandRed/30 flex items-center justify-center text-brandRed shrink-0">
+                                    <i class="far fa-clock"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-white block">Horário de Funcionamento</span>
+                                    <span>Segunda a Sexta: 06:30 às 22:00 | Sábado: 09:00 às 13:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder Map -->
+                    <div class="w-full h-48 rounded-2xl bg-darkCard border border-darkBorder flex items-center justify-center text-center p-4">
+                        <div>
+                            <i class="fas fa-map-marked-alt text-brandRed text-3xl mb-2"></i>
+                            <p class="text-xs text-textMuted font-semibold">LOCALIZAÇÃO E NAVEGAÇÃO GPS</p>
+                            <span class="text-[10px] text-textMuted">Clique para abrir no Google Maps</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER COMPLETO -->
+    <footer class="bg-darkCard border-t border-darkBorder text-textMuted text-xs py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="51752.jpg" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1B1D21/E53935?text=PEGASO';" alt="Logo Pégaso" class="h-10 w-10 rounded-full border border-brandRed">
+                        <span class="font-heading text-xl font-bold text-white">PÉGASO <span class="text-brandRed">TEAM</span></span>
+                    </div>
+                    <p class="leading-relaxed">Centro especializado em artes marciais, condicionamento e transformação física sob liderança do Mestre Arthur Thai.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-white text-base font-bold mb-3">MODALIDADES</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#modalidades" class="hover:text-white transition-colors">Muay Thai</a></li>
+                        <li><a href="#modalidades" class="hover:text-white transition-colors">Boxe Tradicional</a></li>
+                        <li><a href="#modalidades" class="hover:text-white transition-colors">Jiu-Jitsu (BJJ)</a></li>
+                        <li><a href="#modalidades" class="hover:text-white transition-colors">Kickboxing</a></li>
+                        <li><a href="#modalidades" class="hover:text-white transition-colors">MMA</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-white text-base font-bold mb-3">ACESSO RÁPIDO</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#horarios" class="hover:text-white transition-colors">Grade de Horários</a></li>
+                        <li><a href="#planos" class="hover:text-white transition-colors">Planos & Valores</a></li>
+                        <li><a href="#agendamento" class="hover:text-white transition-colors">Aula Experimental</a></li>
+                        <li><button onclick="openModal('login-modal')" class="hover:text-white transition-colors">Área do Aluno</button></li>
+                        <li><button onclick="openModal('login-modal')" class="hover:text-white transition-colors">Painel Administrativo</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading text-white text-base font-bold mb-3">POLÍTICAS & LGPD</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidade (LGPD)</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Regulamento Interno</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-darkBorder flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
+                <p>© 2026 Pégaso Team - Todos os direitos reservados. Design Oficial e Exclusivo.</p>
+                <div class="flex space-x-4 text-base text-textMuted">
+                    <a href="#" class="hover:text-brandRed"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-brandRed"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-brandRed"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="hover:text-brandRed"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- MODAL DE LOGIN / PAINEL ALUNO / ADMIN -->
+    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-darkCard border border-darkBorder rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
+            <button onclick="closeModal('login-modal')" class="absolute top-5 right-5 text-textMuted hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center mb-6">
+                <img src="51752.jpg" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1B1D21/E53935?text=PEGASO';" alt="Logo Pégaso" class="h-12 w-12 rounded-full mx-auto mb-2 border border-brandRed">
+                <h3 class="font-heading text-3xl font-black text-white">SISTEMA PÉGASO</h3>
+                <p class="text-xs text-textMuted">Acesse sua Área do Aluno ou Painel Admin</p>
+            </div>
+
+            <!-- Login Tabs -->
+            <div class="flex border-b border-darkBorder mb-6">
+                <button onclick="switchLoginTab('aluno')" id="tab-btn-aluno" class="w-1/2 pb-2 font-heading text-lg font-bold text-brandRed border-b-2 border-brandRed">ÁREA DO ALUNO</button>
+                <button onclick="switchLoginTab('admin')" id="tab-btn-admin" class="w-1/2 pb-2 font-heading text-lg font-bold text-textMuted hover:text-white">PAINEL ADMIN</button>
+            </div>
+
+            <!-- Login Form -->
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-textMuted uppercase font-bold mb-1">CPF ou Matrícula / Usuário</label>
+                    <input type="text" id="login-user" required placeholder="Digite seu acesso" class="w-full bg-darkBg border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs text-textMuted uppercase font-bold mb-1">Senha</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-darkBg border border-darkBorder rounded-xl p-3 text-white focus:border-brandRed outline-none">
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-textMuted">
+                    <label class="flex items-center"><input type="checkbox" class="mr-2"> Lembrar de mim</label>
+                    <a href="#" class="text-brandRed hover:underline">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="w-full bg-brandRed hover:bg-brandRedHover text-white py-3.5 rounded-xl font-heading text-lg font-bold transition-all">ENTRAR NO SISTEMA</button>
+            </form>
+
+            <div class="mt-4 pt-4 border-t border-darkBorder text-center">
+                <p class="text-[11px] text-textMuted">Modo demonstrativo rápido: Clique em Entrar para ver a simulação do painel.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL DASHBOARD ALUNO DEMONSTRATIVO -->
+    <div id="dashboard-aluno-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-8">
+        <div class="max-w-4xl mx-auto bg-darkCard border border-darkBorder rounded-3xl p-6 sm:p-8 relative my-8">
+            <button onclick="closeModal('dashboard-aluno-modal')" class="absolute top-5 right-5 text-textMuted hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="flex items-center space-x-4 mb-8">
+                <img src="https://placehold.co/100x100/1B1D21/FFFFFF?text=Aluno" alt="Foto Aluno" class="w-16 h-16 rounded-full border-2 border-brandRed">
+                <div>
+                    <h3 class="font-heading text-3xl font-black text-white">BEM-VINDO, ALUNO PÉGASO</h3>
+                    <p class="text-xs text-brandRed font-semibold">Plano VIP | Matrícula #2026-88</p>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <div class="bg-darkBg p-4 rounded-2xl border border-darkBorder text-center">
+                    <span class="text-xs text-textMuted block">Presenças no Mês</span>
+                    <span class="font-heading text-3xl font-black text-white">14</span>
+                </div>
+                <div class="bg-darkBg p-4 rounded-2xl border border-darkBorder text-center">
+                    <span class="text-xs text-textMuted block">Status Mensalidade</span>
+                    <span class="text-xs font-bold text-green-400 bg-green-950 px-2 py-1 rounded inline-block mt-2">EM DIA</span>
+                </div>
+                <div class="bg-darkBg p-4 rounded-2xl border border-darkBorder text-center">
+                    <span class="text-xs text-textMuted block">Graduação / Grau</span>
+                    <span class="font-heading text-xl font-bold text-white">Prajied Azul</span>
+                </div>
+                <div class="bg-darkBg p-4 rounded-2xl border border-darkBorder text-center">
+                    <span class="text-xs text-textMuted block">Professor Head</span>
+                    <span class="font-heading text-lg font-bold text-brandRed">Arthur Thai</span>
+                </div>
+            </div>
+
+            <h4 class="font-heading text-xl font-bold text-white mb-3">Próximos Treinos Confirmados</h4>
+            <div class="space-y-3 mb-8">
+                <div class="bg-darkBg p-4 rounded-xl border border-darkBorder flex justify-between items-center">
+                    <div>
+                        <span class="font-bold text-white block">Muay Thai - Avançado</span>
+                        <span class="text-xs text-textMuted">Hoje às 19:30 | Prof. Arthur Thai</span>
+                    </div>
+                    <span class="text-xs bg-brandRed/20 text-brandRed px-3 py-1 rounded font-bold">CONFIRMADO</span>
+                </div>
+            </div>
+
+            <button onclick="closeModal('dashboard-aluno-modal')" class="bg-darkBorder text-white px-6 py-2.5 rounded-xl font-medium text-sm">Sair do Painel</button>
+        </div>
+    </div>
+
+
+    <!-- MODAL DASHBOARD ADMIN DEMONSTRATIVO -->
+    <div id="dashboard-admin-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-8">
+        <div class="max-w-5xl mx-auto bg-darkCard border border-darkBorder rounded-3xl p-6 sm:p-8 relative my-8">
+            <button onclick="closeModal('dashboard-admin-modal')" class="absolute top-5 right-5 text-textMuted hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="flex items-center space-x-4 mb-8">
+                <div class="w-12 h-12 rounded-full bg-brandRed flex items-center justify-center text-white font-bold text-xl"><i class="fas fa-cog"></i></div>
+                <div>
+                    <h3 class="font-heading text-3xl font-black text-white">PAINEL ADMINISTRATIVO PÉGASO TEAM</h3>
+                    <p class="text-xs text-textMuted">Gestão de Turmas, Alunos e Agendamentos</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                <div class="bg-darkBg p-5 rounded-2xl border border-darkBorder">
+                    <span class="text-xs text-textMuted block">Total de Alunos Ativos</span>
+                    <span class="font-heading text-4xl font-black text-white">184</span>
+                </div>
+                <div class="bg-darkBg p-5 rounded-2xl border border-darkBorder">
+                    <span class="text-xs text-textMuted block">Aulas Experimentais esta Semana</span>
+                    <span class="font-heading text-4xl font-black text-brandRed">12</span>
+                </div>
+                <div class="bg-darkBg p-5 rounded-2xl border border-darkBorder">
+                    <span class="text-xs text-textMuted block">Faturamento Mensal Estimado</span>
+                    <span class="font-heading text-4xl font-black text-green-400">R$ 32.400</span>
+                </div>
+            </div>
+
+            <h4 class="font-heading text-xl font-bold text-white mb-3">Últimos Agendamentos de Aula Experimental</h4>
+            <div class="bg-darkBg rounded-2xl border border-darkBorder overflow-x-auto mb-8">
+                <table class="w-full text-left text-xs min-w-[500px]">
+                    <thead class="bg-darkCard text-brandRed font-heading text-sm">
+                        <tr>
+                            <th class="p-3">Nome</th>
+                            <th class="p-3">Modalidade</th>
+                            <th class="p-3">Data</th>
+                            <th class="p-3">Contato</th>
+                            <th class="p-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-darkBorder/60">
+                        <tr>
+                            <td class="p-3 text-white font-bold">Carlos Silva</td>
+                            <td class="p-3 text-textMuted">Muay Thai</td>
+                            <td class="p-3 text-textMuted">Amanhã 19:30</td>
+                            <td class="p-3 text-textMuted">(11) 98888-7777</td>
+                            <td class="p-3"><span class="bg-yellow-950 text-yellow-400 px-2 py-0.5 rounded font-bold">Pendente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-white font-bold">Mariana Costa</td>
+                            <td class="p-3 text-textMuted">Boxe</td>
+                            <td class="p-3 text-textMuted">Sexta 08:00</td>
+                            <td class="p-3 text-textMuted">(11) 97777-6666</td>
+                            <td class="p-3"><span class="bg-green-950 text-green-400 px-2 py-0.5 rounded font-bold">Confirmado</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button onclick="closeModal('dashboard-admin-modal')" class="bg-darkBorder text-white px-6 py-2.5 rounded-xl font-medium text-sm">Sair do Admin</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Quiz State
+        let quizState = { obj: null, pref: null };
+
+        function selectQuizOpt(category, value, element) {
+            quizState[category] = value;
+            document.querySelectorAll(`.quiz-btn-${category}`).forEach(btn => {
+                btn.classList.remove('border-brandRed', 'bg-brandRed/20');
+            });
+            element.classList.add('border-brandRed', 'bg-brandRed/20');
+        }
+
+        function calcularQuiz() {
+            if (!quizState.obj || !quizState.pref) {
+                showToast('Por favor, selecione as 2 opções do quiz!');
+                return;
+            }
+
+            let resultTitle = 'MUAY THAI';
+            let resultDesc = 'Com base nas suas respostas, o Muay Thai ministrado pelo Prof. Arthur Thai proporcionará a melhor combinação de força, queima de gordura e defesa pessoal!';
+
+            if (quizState.pref === 'solo') {
+                resultTitle = 'JIU-JITSU (BJJ)';
+                resultDesc = 'O Jiu-Jitsu é a escolha ideal para você! Você aprenderá técnicas puras de alavanca, defesa no solo e controle estratégico.';
+            } else if (quizState.pref === 'semcontato') {
+                resultTitle = 'TREINO FUNCIONAL';
+                resultDesc = 'Nosso Treino Funcional foca em condicionamento extremo, perda de peso e fortalecimento muscular sem contato de luta!';
+            } else if (quizState.obj === 'forca') {
+                resultTitle = 'BOXE TRADICIONAL OU KICKBOXING';
+                resultDesc = 'Para liberar o estresse do dia a dia e tonificar os braços e pernas com alto impacto, o Boxe ou Kickboxing é perfeito!';
+            }
+
+            document.getElementById('result-title').innerText = `RECOMENDAÇÃO: ${resultTitle}`;
+            document.getElementById('result-desc').innerText = resultDesc;
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+        }
+
+        function resetQuiz() {
+            quizState = { obj: null, pref: null };
+            document.querySelectorAll('.quiz-btn-obj, .quiz-btn-pref').forEach(btn => {
+                btn.classList.remove('border-brandRed', 'bg-brandRed/20');
+            });
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+        }
+
+        // Schedule Filtering
+        function filterSchedule(filter) {
+            document.querySelectorAll('.sched-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-brandRed', 'text-white');
+                btn.classList.add('bg-darkCard', 'text-textMuted');
+            });
+            event.target.classList.remove('bg-darkCard', 'text-textMuted');
+            event.target.classList.add('bg-brandRed', 'text-white');
+
+            const rows = document.querySelectorAll('.sched-row');
+            rows.forEach(row => {
+                if (filter === 'all' || row.classList.contains(filter)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Booking Wizard
+        let currentStep = 1;
+        function goToStep(step) {
+            currentStep = step;
+            document.querySelectorAll('.booking-step').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            // Line & Buttons UI
+            const line = document.getElementById('step-line');
+            if (step === 1) line.style.width = '0%';
+            if (step === 2) line.style.width = '50%';
+            if (step === 3) line.style.width = '100%';
+
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`step-btn-${i}`);
+                if (i <= step) {
+                    btn.classList.remove('bg-darkBg', 'text-textMuted', 'border');
+                    btn.classList.add('bg-brandRed', 'text-white');
+                } else {
+                    btn.classList.remove('bg-brandRed', 'text-white');
+                    btn.classList.add('bg-darkBg', 'text-textMuted', 'border');
+                }
+            }
+        }
+
+        function setAgendamentoModalidade(modName) {
+            const radio = document.querySelector(`input[name="modalidade_select"][value="${modName}"]`);
+            if (radio) {
+                radio.checked = true;
+            }
+            goToStep(1);
+            document.getElementById('agendamento').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            const mod = document.querySelector('input[name="modalidade_select"]:checked').value;
+            const name = document.getElementById('booking-name').value;
+            showToast(`Sucesso! Aula de ${mod} agendada para ${name}.`);
+            goToStep(1);
+            document.getElementById('booking-form').reset();
+        }
+
+        function setPlanModal(planName) {
+            showToast(`Iniciando matrícula no ${planName}!`);
+            openModal('agendamento');
+            document.getElementById('agendamento').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast('Mensagem enviada com sucesso! Entraremos em contato via WhatsApp.');
+            e.target.reset();
+        }
+
+        // Login & Modals
+        let activeTab = 'aluno';
+        function switchLoginTab(tab) {
+            activeTab = tab;
+            const btnAluno = document.getElementById('tab-btn-aluno');
+            const btnAdmin = document.getElementById('tab-btn-admin');
+
+            if (tab === 'aluno') {
+                btnAluno.className = "w-1/2 pb-2 font-heading text-lg font-bold text-brandRed border-b-2 border-brandRed";
+                btnAdmin.className = "w-1/2 pb-2 font-heading text-lg font-bold text-textMuted hover:text-white";
+            } else {
+                btnAdmin.className = "w-1/2 pb-2 font-heading text-lg font-bold text-brandRed border-b-2 border-brandRed";
+                btnAluno.className = "w-1/2 pb-2 font-heading text-lg font-bold text-textMuted hover:text-white";
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            closeModal('login-modal');
+            if (activeTab === 'aluno') {
+                openModal('dashboard-aluno-modal');
+            } else {
+                openModal('dashboard-admin-modal');
+            }
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
